@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureShare - Cybersecurity Graduation Project</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>SecureShare</span>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-link active" data-page="home">Home</button>
+                <button class="nav-link" data-page="about">About</button>
+                <button class="nav-link" data-page="app">App</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <div class="container">
+            <header class="header">
+                <h1><i class="fas fa-shield-alt"></i> SecureShare</h1>
+                <p>End-to-end encrypted file storage with multi-factor authentication</p>
+                <div class="hero-features">
+                    <div class="feature">
+                        <i class="fas fa-lock"></i>
+                        <h3>AES-256 Encryption</h3>
+                        <p>Military-grade encryption for your files</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-key"></i>
+                        <h3>RSA Key Exchange</h3>
+                        <p>Secure key sharing between users</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>MFA Authentication</h3>
+                        <p>Two-factor authentication for security</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-user-shield"></i>
+                        <h3>RBAC Access Control</h3>
+                        <p>Role-based permissions system</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-lg" onclick="showPage('app')">
+                    <i class="fas fa-rocket"></i> Get Started
+                </button>
+            </header>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about-page" class="page">
+        <div class="container">
+            <div class="about-content">
+                <h1>About SecureShare</h1>
+                <div class="about-section">
+                    <h2><i class="fas fa-user-graduate"></i> About Me</h2>
+                    <p>
+                        Hello! I'm a passionate cybersecurity student at Central Lancashire University,
+                        dedicated to learning and implementing cutting-edge security technologies.
+                        This project represents my commitment to practical cybersecurity applications
+                        and secure software development.
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-project-diagram"></i> Graduation Project</h2>
+                    <p>
+                        SecureShare is my graduation project (مشروع تخرج) developed as part of my
+                        cybersecurity studies at Central Lancashire University. The goal was to create
+                        a practical, secure file-sharing application that demonstrates real-world
+                        implementation of cryptographic principles and secure coding practices.
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-bullseye"></i> Project Objectives</h2>
+                    <ul>
+                        <li>Implement end-to-end encryption using AES-256</li>
+                        <li>Develop secure RSA key exchange mechanisms</li>
+                        <li>Integrate multi-factor authentication (MFA)</li>
+                        <li>Create role-based access control (RBAC)</li>
+                        <li>Ensure file integrity with SHA-256 hashing</li>
+                        <li>Build a user-friendly web interface</li>
+                    </ul>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-code"></i> Technologies Used</h2>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Node.js</span>
+                        <span class="tech-badge">Express.js</span>
+                        <span class="tech-badge">MongoDB</span>
+                        <span class="tech-badge">AES-256</span>
+                        <span class="tech-badge">RSA</span>
+                        <span class="tech-badge">JWT</span>
+                        <span class="tech-badge">HTML5</span>
+                        <span class="tech-badge">CSS3</span>
+                        <span class="tech-badge">JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-graduation-cap"></i> Academic Context</h2>
+                    <p>
+                        This project showcases the application of theoretical cybersecurity concepts
+                        learned during my studies at Central Lancashire University. It demonstrates
+                        practical implementation of encryption algorithms, secure authentication
+                        mechanisms, and secure software development practices essential for
+                        modern cybersecurity professionals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Page -->
+    <div id="app-page" class="page">
+        <div class="container">
+            <!-- Auth Section -->
+            <div id="auth-section" class="auth-section">
+                <div class="auth-tabs">
+                    <button id="login-tab" class="tab-btn active">Login</button>
+                    <button id="register-tab" class="tab-btn">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form">
+                    <h2>Welcome Back</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <div class="form-group" id="mfa-group" style="display: none;">
+                            <label for="mfa-token">MFA Token</label>
+                            <input type="text" id="mfa-token" placeholder="Enter 6-digit code">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" class="auth-form" style="display: none;">
+                    <h2>Create Account</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="register-username">Username</label>
+                            <input type="text" id="register-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <input type="password" id="register-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- MFA Setup -->
+            <div id="mfa-setup" class="mfa-setup" style="display: none;">
+                <h2>Setup Multi-Factor Authentication</h2>
+                <p>Scan this QR code with your authenticator app:</p>
+                <div id="qr-code" class="qr-code"></div>
+                <button id="mfa-confirm" class="btn btn-primary">I've Scanned the Code</button>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard" class="dashboard" style="display: none;">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+                    <button id="logout-btn" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+
+                <!-- File Upload -->
+                <div class="upload-section">
+                    <div class="upload-area" id="upload-area">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop Files Here</h3>
+                        <p>or <span class="upload-link">browse files</span></p>
+                        <input type="file" id="file-input" multiple style="display: none;">
+                    </div>
+                    <div id="upload-progress" class="upload-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <p id="progress-text">Uploading...</p>
+                    </div>
+                </div>
+
+                <!-- File List -->
+                <div class="file-list">
+                    <h3><i class="fas fa-folder"></i> Your Files</h3>
+                    <div id="file-list" class="files">
+                        <!-- Files will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    <div id="message" class="message" style="display: none;"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
