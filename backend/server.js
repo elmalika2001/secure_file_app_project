@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const authRoutes = require('./routes/auth');
 const fileRoutes = require('./routes/files');
 
@@ -22,12 +23,22 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Connect to MongoDB (you can change this to SQLite if preferred)
-mongoose.connect('mongodb://localhost:27017/secure-file-sharing', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+// Connect to MongoDB (using in-memory server for development)
+async function connectDB() {
+  try {
+    const mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+    await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('MongoDB Memory Server connected');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+  }
+}
+
+connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);
