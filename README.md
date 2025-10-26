@@ -11,114 +11,163 @@ A secure file-sharing application built with Node.js backend and vanilla HTML/CS
 - **File Integrity**: SHA-256 hashing for integrity verification
 - **Secure API**: JWT authentication with rate limiting and security headers
 
-## Project Structure
+## Tech Stack
 
-```
-secure-file-sharing/
-├── frontend/
-│   ├── index.html          # Home page with file upload
-│   ├── contact.html        # Contact page with form
-│   ├── about.html          # About page
-│   ├── script.js           # Frontend JavaScript
-│   └── styles.css          # CSS styles
-├── backend/
-│   ├── server.js           # Main server file
-│   ├── package.json        # Backend dependencies
-│   ├── routes/             # API routes
-│   │   ├── auth.js         # Authentication routes
-│   │   ├── files.js        # File management routes
-│   │   ├── contact.js      # Contact form routes
-│   │   └── about.js        # About page routes
-│   ├── controllers/        # Route controllers
-│   │   ├── authController.js
-│   │   ├── fileController.js
-│   │   ├── contactController.js
-│   │   └── aboutController.js
-│   ├── models/             # MongoDB models
-│   │   ├── user.js
-│   │   ├── file.js
-│   │   └── message.js
-│   └── utils/              # Utility functions
-│       ├── crypto.js       # Cryptographic utilities
-│       └── db.js           # Database connection
-├── uploads/                # File upload directory
-│   └── encrypted/          # Encrypted files storage
-├── .gitignore
-└── README.md
-```
+- **Backend**: Node.js, Express.js, MongoDB
+- **Frontend**: HTML, CSS, JavaScript
+- **Security**: AES, RSA, JWT, TOTP, bcrypt
+- **Deployment**: Docker, Docker Compose, Nginx
 
-## Prerequisites
+## Quick Start with Docker
 
-- Node.js (v14 or higher)
-- MongoDB (local or cloud instance)
-- npm or yarn
-
-## Installation
-
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd secure-file-sharing
+   git clone https://github.com/elmalika2001/secure_file_app_project.git
+   cd secure_file_app_project
    ```
 
-2. **Install backend dependencies**
+2. Create environment file:
    ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+3. Start with Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+The application will be available at:
+- Frontend: http://localhost
+- Backend API: http://localhost/api
+
+## Manual Installation
+
+1. **Install dependencies**
+   ```bash
+   # Backend
    cd backend
+   npm install
+
+   # Frontend
+   cd ../frontend
    npm install
    ```
 
-3. **Set up environment variables** (optional)
-   Create a `.env` file in the backend directory:
-   ```
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/secureshare
-   JWT_SECRET=your-secret-key
-   ```
-
-4. **Start MongoDB**
-   Make sure MongoDB is running on your system.
-
-5. **Start the backend server**
+2. **Configure environment variables**
    ```bash
-   npm start
-   # or for development
-   npm run dev
+   cp .env.example .env
+   # Edit .env with your configuration
    ```
 
-6. **Start the frontend**
-   Open `frontend/index.html` in your browser or use a local server:
+3. **Start MongoDB** (make sure it's running on localhost:27017)
+
+4. **Start the backend**
+   ```bash
+   cd backend
+   npm start
+   ```
+
+5. **Start the frontend**
    ```bash
    cd frontend
    python -m http.server 8000
    ```
-   Then visit `http://localhost:8000`
+
+## Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# Database Configuration
+MONGODB_URI=mongodb://localhost:27017/secureshare
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-here-change-in-production
+
+# File Upload Configuration
+UPLOAD_PATH=uploads/
+MAX_FILE_SIZE=10485760
+
+# Security Configuration
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+
+# CORS Configuration
+FRONTEND_URL=http://localhost:3000
+```
+
+## Docker Deployment
+
+### Development
+```bash
+docker-compose up --build
+```
+
+### Production
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+```
 
 ## API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
-- `POST /api/auth/setup-mfa` - Setup MFA
 - `GET /api/auth/profile` - Get user profile
+- `POST /api/auth/setup-mfa` - Setup MFA
+- `POST /api/auth/verify-mfa` - Verify MFA code
 
-### File Management
-- `POST /api/files/upload` - Upload file
-- `GET /api/files` - Get user's files
-- `GET /api/files/download/:id` - Download file
+### Files
+- `POST /api/files/upload` - Upload encrypted file
+- `GET /api/files` - List user files
+- `GET /api/files/:id/download` - Download decrypted file
 - `DELETE /api/files/:id` - Delete file
 
-### Contact & About
+### Contact
 - `POST /api/contact` - Send contact message
-- `GET /api/about` - Get about information
+
+### About
+- `GET /api/about` - Get project information
 
 ## Security Features
 
-- **Password Hashing**: bcrypt for secure password storage
-- **JWT Authentication**: Token-based authentication
-- **Rate Limiting**: Prevents brute force attacks
-- **Input Validation**: Server-side validation
-- **CORS Protection**: Cross-origin resource sharing controls
-- **Helmet Security Headers**: Security headers middleware
+- Password hashing with bcrypt
+- JWT token authentication
+- Rate limiting
+- Input validation and sanitization
+- CORS protection
+- Helmet security headers
+- File encryption at rest
+- Integrity verification with SHA-256
+
+## Project Structure
+
+```
+secure-file-sharing/
+├── backend/                 # Node.js backend
+│   ├── controllers/         # Route controllers
+│   ├── models/             # MongoDB models
+│   ├── routes/             # API routes
+│   ├── utils/              # Utility functions
+│   ├── uploads/            # File uploads directory
+│   └── server.js           # Main server file
+├── frontend/               # Static frontend files
+│   ├── index.html          # Home page
+│   ├── contact.html        # Contact page
+│   ├── about.html          # About page
+│   ├── styles.css          # Styles
+│   └── script.js           # Frontend logic
+├── .env.example           # Environment variables template
+├── docker-compose.yml     # Docker Compose configuration
+├── Dockerfile            # Docker build configuration
+├── nginx.conf            # Nginx configuration
+└── README.md             # This file
+```
 
 ## Technologies Used
 

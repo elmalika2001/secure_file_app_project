@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
+
+// Load environment variables
+require('dotenv').config();
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -27,7 +31,8 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/secureshare', {
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/secureshare';
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('MongoDB connected'))
